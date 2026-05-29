@@ -25,7 +25,7 @@ export default function Navbar({ active }) {
   return (
     <header 
       ref={navRef}
-      className="fixed top-0 left-0 w-full z-50 flex justify-between items-center py-10 px-10 md:px-24 select-none bg-transparent pointer-events-none"
+      className="fixed top-0 left-0 w-full z-50 flex justify-between items-center py-5 md:py-6 px-10 md:px-24 select-none bg-white/70 backdrop-blur-md border-b border-[#D9D9D9]/50 pointer-events-auto"
     >
       {/* Top Left: Social Icons */}
       <div className="flex items-center gap-8 nav-fade-in pointer-events-auto">

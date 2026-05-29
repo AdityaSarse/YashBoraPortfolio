@@ -133,7 +133,7 @@ export default function App() {
     }, [loading]);
 
     return (
-        <div ref={appRef} className="relative min-h-screen text-[#111111] overflow-x-hidden font-sans">
+        <div ref={appRef} className="relative min-h-screen text-[#111111] font-sans">
 
             {/* 3D WebGL Constellation Background */}
             <ThreeBackground />
