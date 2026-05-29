@@ -1,0 +1,183 @@
+@import "tailwindcss";
+
+@theme {
+  --color-bg: #F4F4F4;
+  --color-surface: #FFFFFF;
+  --color-text-primary: #111111;
+  --color-text-secondary: #6B7280;
+  --color-border: #D9D9D9;
+  --color-accent: #7C98A4;
+  --color-muted: #B6B6B6;
+  
+  --font-serif: 'Cormorant Garamond', serif;
+  --font-sans: 'Inter', sans-serif;
+  
+  --spacing-xs: 8px;
+  --spacing-sm: 16px;
+  --spacing-md: 24px;
+  --spacing-lg: 40px;
+  --spacing-xl: 64px;
+  --spacing-xxl: 96px;
+  --spacing-xxxl: 140px;
+
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-full: 999px;
+
+  --shadow-sm: 0 4px 12px rgba(0,0,0,0.04);
+  --shadow-md: 0 12px 30px rgba(0,0,0,0.08);
+
+  --animate-orbit-clockwise: orbit-clockwise 40s linear infinite;
+  --animate-orbit-counter: orbit-counter 60s linear infinite;
+
+  @keyframes orbit-clockwise {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  @keyframes orbit-counter {
+    0% { transform: rotate(360deg); }
+    100% { transform: rotate(0deg); }
+  }
+}
+
+/* Custom Base Styles */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text-primary);
+  font-family: var(--font-sans);
+}
+
+/* Slim Elegant Monochrome Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-bg);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: var(--radius-full);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-accent);
+}
+
+/* Custom Cursor Styles */
+@media (min-width: 1024px) {
+  body {
+    cursor: none;
+  }
+  a, button, select, input, textarea, [role="button"], .clickable {
+    cursor: none;
+  }
+  .custom-cursor {
+    width: 32px;
+    height: 32px;
+    border: 1px solid var(--color-accent);
+    border-radius: 50%;
+    position: fixed;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    z-index: 9999;
+    transition: width 0.3s cubic-bezier(0.25, 1, 0.5, 1), 
+                height 0.3s cubic-bezier(0.25, 1, 0.5, 1), 
+                background-color 0.3s cubic-bezier(0.25, 1, 0.5, 1), 
+                border-color 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+  .custom-cursor-dot {
+    width: 6px;
+    height: 6px;
+    background-color: var(--color-text-primary);
+    border-radius: 50%;
+    position: fixed;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    z-index: 9999;
+    transition: transform 0.1s ease;
+  }
+  .custom-cursor.hovered {
+    width: 56px;
+    height: 56px;
+    background-color: rgba(124, 152, 164, 0.08);
+    border-color: var(--color-accent);
+  }
+}
+
+/* Editorial Heading Typography Style from Design.md Section 3 */
+.section-title {
+  font-size: 32px;
+  font-weight: 300;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+}
+
+/* Circular Ring System Component from Design.md Section 6 */
+.circle-ring {
+  border: 1px solid var(--color-border);
+  border-radius: 50%;
+  position: absolute;
+  opacity: 0.65;
+  pointer-events: none;
+}
+
+/* Container Layout from Design.md Section 5 */
+.custom-container {
+  max-width: 1400px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 24px;
+  padding-right: 24px;
+}
+@media (min-width: 768px) {
+  .custom-container {
+    padding-left: 48px;
+    padding-right: 48px;
+  }
+}
+
+/* Two Column Content Grid from Design.md Section 5 */
+.content-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 40px;
+  align-items: center;
+}
+@media (min-width: 1024px) {
+  .content-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+  }
+}
+
+/* Monochrome Visual Style from Design.md Section 10 */
+.monochrome-img {
+  filter: grayscale(100%) contrast(1.05);
+  transition: filter 0.5s ease, transform 0.5s ease;
+}
+.monochrome-img:hover {
+  filter: grayscale(20%) contrast(1.1);
+  transform: scale(1.02);
+}
+
+/* Custom Glassmorphism Surface */
+.glass-surface {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(217, 217, 217, 0.5);
+}
+
+/* Subtle Technical Schematic Grid Background */
+.tech-grid-bg {
+  background-size: 40px 40px;
+  background-image: 
+    linear-gradient(to right, rgba(217, 217, 217, 0.15) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(217, 217, 217, 0.15) 1px, transparent 1px);
+}
