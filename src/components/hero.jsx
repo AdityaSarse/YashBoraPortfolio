@@ -3,7 +3,6 @@ import gsap from 'gsap';
 
 const changingTexts = [
   "YASH BORA",
-  "FULL STACK DEVELOPER",
   "AI ENGINEER",
   "PROBLEM SOLVER",
   "TECH CREATOR"
