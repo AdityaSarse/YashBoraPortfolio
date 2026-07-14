@@ -48,7 +48,7 @@ export default function About() {
             <div className="w-full max-w-[420px] aspect-[4/5] rounded-2xl overflow-hidden bg-black shadow-md border border-[#D9D9D9]/40 p-0">
 
               <img
-                src="/profile-color.png"
+                src="/yash.png"
                 alt="Yash Bora"
                 className="w-full h-full object-cover object-top rounded-xl select-none"
                 draggable="false"

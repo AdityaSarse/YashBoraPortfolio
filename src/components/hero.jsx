@@ -71,10 +71,9 @@ export default function Hero({ active }) {
         {/* Profile photo — Yash's actual image */}
         <div className="hero-reveal w-[160px] h-[160px] rounded-full overflow-hidden border border-[#D9D9D9] bg-black p-0 shadow-sm mb-6 flex items-center justify-center">
           <img
-            src="profile-color.png"
+            src="hero.png"
             alt="Yash Bora"
             className="w-full h-full object-cover object-top rounded-full select-none"
-            style={{ filter: ' contrast(1.8) brightness(0.45)' }}
             draggable="false"
           />
         </div>
