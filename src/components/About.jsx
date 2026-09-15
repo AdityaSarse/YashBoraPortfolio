@@ -67,15 +67,15 @@ export default function About() {
             </h3>
 
             <div className="about-body space-y-4 text-[#6B7280] text-[15px] md:text-[16px] leading-relaxed font-light select-text">
-              <p>
-                Hey 👋 I'm a final-year B.E. Information Technology student at PVG's College of Engineering and Technology, Pune — CGPA 9.16. I'm passionate about building intelligent systems at the intersection of Generative AI, RAG pipelines, and production-grade ML.
-              </p>
-              <p>
-                I've shipped end-to-end AI solutions: from semantic search over 120K+ vector embeddings to deep learning models running at 96% accuracy in production. I enjoy the full stack — data → model → API → Docker → cloud.
-              </p>
-              <p>
-                My long-term goal is to become an AI/ML Engineer contributing to products that create real-world impact through intelligent automation.
-              </p>
+                <p>
+                  Hey 👋 I'm a final-year B.E. Information Technology student at PVG's College of Engineering and Technology, Pune — CGPA 9.16. I'm passionate about building intelligent systems at the intersection of Generative AI, RAG pipelines, and production-grade ML.
+                </p>
+                <p>
+                  I've shipped end-to-end AI solutions: from agentic AI systems that decompose complex requests to deep learning models running at 96% accuracy in production. I enjoy the full stack — data → model → API → Docker → cloud.
+                </p>
+                <p>
+                  My long-term goal is to become an AI/ML Engineer contributing to products that create real-world impact through intelligent automation.
+                </p>
             </div>
 
             {/* Quick stats */}
@@ -83,7 +83,7 @@ export default function About() {
               {[
                 { val: '9.16', label: 'CGPA' },
                 { val: '3+', label: 'Projects Deployed' },
-                { val: '120K+', label: 'Vectors Indexed' },
+                { val: '343+', label: 'LeetCode Solved' },
               ].map((s) => (
                 <div key={s.label} className="about-stat flex flex-col items-center justify-center bg-white rounded-xl py-4 px-2 border border-[#D9D9D9]/60 shadow-sm">
                   <span className="text-[22px] font-bold text-[#111111]">{s.val}</span>

@@ -16,19 +16,23 @@ export default function Hero({ active }) {
   useEffect(() => {
     if (!active) return;
     const ctx = gsap.context(() => {
+      // Continuous ring pulse
       gsap.to('.hero-ring', {
-        scale: 0.95, duration: 5, repeat: -1, yoyo: true,
-        ease: 'power2.inOut',
-        stagger: { each: 0.2, from: 'center' }
+        scale: 1.05, duration: 4, repeat: -1, yoyo: true,
+        ease: 'sine.inOut',
+        stagger: { each: 0.3, from: 'center' }
       });
-      gsap.from('.hero-reveal', {
-        opacity: 0, y: 30, duration: 1.5, stagger: 0.15,
-        ease: 'power3.out', delay: 0.1
-      });
-      gsap.from('.hero-ring', {
-        opacity: 0, scale: 0.7, duration: 2.0, stagger: 0.1,
+
+      // Entrance animations
+      const tl = gsap.timeline();
+      tl.from('.hero-ring', {
+        opacity: 0, scale: 0, duration: 1.5, stagger: 0.1,
+        ease: 'expo.out'
+      })
+      .from('.hero-reveal', {
+        opacity: 0, y: 40, duration: 1.2, stagger: 0.2,
         ease: 'power4.out'
-      });
+      }, '-=1');
     }, heroRef);
     return () => ctx.revert();
   }, [active]);
@@ -68,7 +72,7 @@ export default function Hero({ active }) {
       {/* Center content */}
       <div className="relative z-10 flex flex-col items-center justify-center text-center max-w-2xl w-full">
 
-        {/* Profile photo — Yash's actual image */}
+        {/* Profile photo */}
         <div className="hero-reveal w-[160px] h-[160px] rounded-full overflow-hidden border border-[#D9D9D9] bg-black p-0 shadow-sm mb-6 flex items-center justify-center">
           <img
             src="hero.png"
