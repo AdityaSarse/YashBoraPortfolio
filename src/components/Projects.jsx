@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -97,7 +97,7 @@ const SportsRAGImage = () => (
     <rect width="420" height="280" fill="#EDF4F8" rx="16"/>
     {/* Grid lines */}
     {[60,120,180,240].map(y => <line key={y} x1="20" y1={y} x2="400" y2={y} stroke="#B8D0DC" strokeWidth="0.5" strokeDasharray="4,4"/>)}
-    {[80,160,240,320].map(x => <line key={x} x1={x} y1="20" x2={x} x2={x} y2="260" stroke="#B8D0DC" strokeWidth="0.5" strokeDasharray="4,4"/>)}
+    {[80,160,240,320].map(x => <line key={x} x1={x} y1="20" x2={x} y2="260" stroke="#B8D0DC" strokeWidth="0.5" strokeDasharray="4,4"/>)}
     {/* Central brain/vector node */}
     <circle cx="210" cy="140" r="48" fill="white" stroke="#7C98A4" strokeWidth="2"/>
     <circle cx="210" cy="140" r="36" fill="#EFF6FA" stroke="#7C98A4" strokeWidth="1"/>
@@ -191,7 +191,105 @@ const ChurnImage = () => (
 );
 
 // ─── Project Data ──────────────────────────────────────────────────────────────
+const AgenticImage = () => (
+  <div className="workflow w-full space-y-5 text-center text-[#1C3C3C]">
+    <p className="text-xs uppercase tracking-[0.2em]">Multimodal workflow</p>
+    <div className="rounded-2xl bg-white p-4 border border-[#D9D9D9]">PDF · Image · Audio · YouTube</div>
+    <div aria-hidden="true">↓</div>
+    <div className="rounded-2xl bg-[#1C3C3C] text-white p-5 font-semibold">LangGraph planner + tools</div>
+    <div aria-hidden="true">↓</div>
+    <div className="rounded-2xl bg-white p-4 border border-[#D9D9D9]">Structured response</div>
+  </div>
+);
+
+const VoiceSQLImage = () => (
+  <div className="workflow w-full space-y-5 text-center text-[#1C3C3C]">
+    <p className="text-xs uppercase tracking-[0.2em]">Voice-to-SQL workflow</p>
+    {['Voice input / Whisper', 'LangGraph agent / SQL debugger', 'PostgreSQL / query result', 'Answer / edge-TTS'].map((step, index) => (
+      <div key={step} className="rounded-2xl bg-white p-4 border border-[#D9D9D9] text-sm"><span className="text-[#7C98A4] mr-3">0{index + 1}</span>{step}</div>
+    ))}
+  </div>
+);
+
+const MedicalImage = () => (
+  <div className="workflow w-full space-y-5 text-center text-[#1C3C3C]">
+    <p className="text-xs uppercase tracking-[0.2em]">Medical report verification</p>
+    {['Report ingestion', 'Patient history / semantic retrieval', 'LLM consistency checks', 'Structured audit response'].map((step, index) => (
+      <div key={step} className="rounded-2xl bg-white p-4 border border-[#D9D9D9] text-sm"><span className="text-[#7C98A4] mr-3">0{index + 1}</span>{step}</div>
+    ))}
+  </div>
+);
+
 const projects = [
+  {
+    title: "Multi-modal Agentic Assistant",
+    screenshot: "/projects/multimodal.webp",
+    screenshotLabel: "Live app · Sign-in screen",
+    subtitle: "AI Agents · Document, Image & Audio Workflows",
+    icon: <IconLangChain />,
+    techStack: [
+      { name: "Python", icon: <IconPython /> },
+      { name: "LangGraph" },
+      { name: "LangChain", icon: <IconLangChain /> },
+      { name: "FastAPI", icon: <IconFastAPI /> },
+      { name: "Streamlit" },
+      { name: "OCR / Whisper" },
+      { name: "Render", icon: <IconRender /> },
+    ],
+    liveDemo: "https://muitimodal-agent.onrender.com/",
+    github: null,
+    bullets: [
+      "Built an assistant that processes PDFs, images, audio, YouTube videos, and general queries through tool-based workflows.",
+      "Designed a LangGraph planner to decompose requests, select tools, and maintain bounded conversation state, with query-aware chunking and ambiguity handling.",
+      "Implemented OCR, Whisper transcription, structured outputs, retries, and model fallback routing; deployed FastAPI and Streamlit services on Render with token-usage monitoring.",
+    ],
+    ImageComponent: AgenticImage,
+    imageBg: "bg-[#EDF5EF]",
+  },
+  {
+    title: "E-commerce Analytics Agent",
+    subtitle: "Conversational Analytics · Database Insights",
+    screenshot: "/projects/ecommerce.webp",
+    screenshotLabel: "Live app · Analytics workspace",
+    icon: <IconFastAPI />,
+    techStack: [
+      { name: "Natural-language queries" },
+      { name: "Data analytics" },
+      { name: "Charts & statistics" },
+      { name: "Render", icon: <IconRender /> },
+    ],
+    liveDemo: "https://ecommerce-analytics-agent-system.onrender.com/",
+    github: null,
+    bullets: [
+      "Built a conversational workspace for asking questions, calculating statistics, and creating charts from an e-commerce database.",
+      "Supports questions about orders, revenue, delivery, and reviews, with suggested prompts for monthly revenue, category sales, and median delivery time.",
+      "Connects an interactive question interface to an analytics API, with a deployed demo on Render.",
+    ],
+    ImageComponent: ChurnImage,
+    imageBg: "bg-[#EEF2FF]",
+  },
+  {
+    title: "Voice-Enabled SQL Analytics Agent",
+    subtitle: "Agentic Analytics · Speech to Database Insights",
+    icon: <IconFastAPI />,
+    techStack: [
+      { name: "Python", icon: <IconPython /> },
+      { name: "LangGraph" },
+      { name: "FastAPI", icon: <IconFastAPI /> },
+      { name: "Whisper / edge-TTS" },
+      { name: "Gemini", icon: <IconGemini /> },
+      { name: "PostgreSQL" },
+    ],
+    liveDemo: null,
+    github: null,
+    bullets: [
+      "Built a voice-to-SQL-to-answer pipeline that turns spoken questions into database queries and spoken responses.",
+      "Orchestrated a LangGraph ReAct agent with schema caching, multi-turn memory, and an iterative SQL debugger.",
+      "Exposed FastAPI endpoints for voice input, natural-language querying, and text-to-speech playback using Whisper, Gemini, PostgreSQL, and edge-TTS.",
+    ],
+    ImageComponent: VoiceSQLImage,
+    imageBg: "bg-[#EEF3F6]",
+  },
   {
     title: "VeriMed-X",
     subtitle: "AI Medical Report Verification Platform",
@@ -215,7 +313,7 @@ const projects = [
       <>Implemented semantic search over medical report embeddings with <span className="font-semibold text-[#2A8C6E]">pgvector + FAISS</span> to cross-reference patient history and flag anomalous findings.</>,
       "Designed a REST API backend with FastAPI enabling real-time report ingestion, verification pipeline execution, and structured JSON audit responses.",
     ],
-    ImageComponent: SportsRAGImage,
+    ImageComponent: MedicalImage,
     imageBg: "bg-[#F0EEF6]",
   },
   {
@@ -240,7 +338,7 @@ const projects = [
     github: "https://github.com/YashBora21/Sports-Rag",
     bullets: [
       <>Built a production RAG pipeline over <span className="font-semibold text-[#2A8C6E]">120K+ vector embeddings</span> with hybrid BM25 + FAISS retrieval and cross-encoder reranking for high-precision sports Q&A.</>,
-      "Integrated Groq-hosted Gemini backend via LangChain, reducing hallucinations by grounding every response in retrieved context from the custom sports knowledge base.",
+      "Integrated LLM APIs through LangChain to ground responses in retrieved sports context; combined reciprocal rank fusion and reranking, achieving 97% query-routing accuracy.",
       "Containerized with Docker and deployed to Hugging Face Spaces; evaluated with RAGAS framework across faithfulness, relevancy, and context precision metrics.",
     ],
     ImageComponent: SportsRAGImage,
@@ -272,6 +370,8 @@ const projects = [
   },
   {
     title: "Employee Churn Predictor",
+    screenshot: "/projects/churn.webp",
+    screenshotLabel: "Live app · Employee prediction form",
     subtitle: "ML · Retention Analytics System",
     icon: (
       <svg viewBox="0 0 24 24" className="w-6 h-6" fill="#7C98A4">
@@ -304,6 +404,12 @@ export default function Projects() {
   const cardRefs = useRef([]);
 
   useEffect(() => {
+    const visibility = new IntersectionObserver(entries => {
+      entries.forEach(entry => entry.target.classList.toggle('is-visible', entry.isIntersecting));
+    });
+    cardRefs.current.forEach(card => card && visibility.observe(card));
+    const motion = gsap.matchMedia();
+    motion.add('(prefers-reduced-motion: no-preference)', () => {
     const ctx = gsap.context(() => {
       gsap.from('.proj-header', {
         y: 30, opacity: 0, duration: 0.8, ease: 'power3.out',
@@ -312,10 +418,15 @@ export default function Projects() {
 
       wrapperRefs.current.forEach((wrapper, idx) => {
         if (!wrapper) return;
-        gsap.from(cardRefs.current[idx], {
-          y: 60, opacity: 0, scale: 0.97, duration: 0.75, ease: 'power3.out',
+        const card = cardRefs.current[idx];
+        const reveal = gsap.timeline({
           scrollTrigger: { trigger: wrapper, start: 'top 90%', toggleActions: 'play none none none' },
         });
+        reveal.from(card.querySelector('.project-visual'), {
+          y: 24, opacity: 0, duration: 0.9, ease: 'power3.out', clearProps: 'transform,opacity',
+        }).from(card.querySelectorAll('.project-heading, .project-badges, .project-description'), {
+          y: 18, opacity: 0, duration: 0.7, stagger: 0.1, ease: 'power3.out', clearProps: 'transform,opacity',
+        }, '-=0.4');
       });
 
       gsap.from('.proj-view-more', {
@@ -325,6 +436,8 @@ export default function Projects() {
     }, containerRef);
 
     return () => ctx.revert();
+    });
+    return () => { motion.revert(); visibility.disconnect(); };
   }, []);
 
   return (
@@ -363,15 +476,23 @@ export default function Projects() {
               style={{ minHeight: CARD_HEIGHT }}
             >
               {/* LEFT: Illustrated image */}
-              <div className={`${proj.imageBg} md:w-[440px] shrink-0 flex items-center justify-center p-8 md:p-10 min-h-[260px]`}>
-                <proj.ImageComponent />
+              <div className={`project-visual ${proj.imageBg} md:w-[46%] shrink-0 flex flex-col items-center justify-center p-6 md:p-8 min-h-[300px]`}>
+                <div className="project-visual-label"><span>SELECTED WORK / 0{idx + 1}</span><span>{proj.screenshot ? 'APP PREVIEW' : 'WORKFLOW'}</span></div>
+                {proj.screenshot ? (
+                  <a className="project-browser" href={proj.liveDemo} target="_blank" rel="noopener noreferrer" aria-label={`Open ${proj.title} app`}>
+                    <div className="project-browser-bar" aria-hidden="true"><i /><i /><i /><span>{new URL(proj.liveDemo).hostname}</span><span>↗</span></div>
+                    <img className="project-screenshot" src={proj.screenshot} alt={`${proj.title} — ${proj.screenshotLabel}`} width="1440" height="1000" loading="lazy" decoding="async" />
+                  </a>
+                ) : <div className="project-art w-full"><proj.ImageComponent /></div>}
+                <p className="project-image-caption">{proj.screenshotLabel || 'Architecture illustration'}</p>
+                {proj.liveDemo && <a className="project-explore" href={proj.liveDemo} target="_blank" rel="noopener noreferrer" aria-label={`Explore ${proj.title} live demo`}>Explore project <span aria-hidden="true">↗</span></a>}
               </div>
 
               {/* RIGHT: Content */}
-              <div className="flex-1 p-8 md:p-10 flex flex-col justify-between">
+              <div className="flex-1 min-w-0 p-8 md:p-10 flex flex-col justify-between">
 
                 {/* Title + Action Buttons */}
-                <div className="flex items-start justify-between gap-4 mb-3 flex-wrap">
+                <div className="project-heading flex items-start justify-between gap-4 mb-3 flex-wrap">
                   <div className="flex items-center gap-3">
                     <div className="w-12 h-12 rounded-full bg-[#F0F6F4] flex items-center justify-center shrink-0">
                       {proj.icon}
@@ -398,7 +519,7 @@ export default function Projects() {
                       </a>
                     ) : (
                       <span className="shrink-0 flex items-center gap-2 px-4 py-2 bg-[#E5E7EB] text-[#9CA3AF] text-[12px] font-semibold tracking-wide rounded-xl cursor-default">
-                        Link Coming Soon
+                        Demo not linked
                       </span>
                     )}
                     {proj.github && (
@@ -418,7 +539,7 @@ export default function Projects() {
                 </div>
 
                 {/* Tech badges */}
-                <div className="flex flex-wrap gap-2 mb-5">
+                <div className="project-badges flex flex-wrap gap-2 mb-5">
                   {proj.techStack.map((tech, tIdx) => (
                     <div
                       key={tIdx}
@@ -431,7 +552,7 @@ export default function Projects() {
                 </div>
 
                 {/* Bullets */}
-                <ul className="space-y-3">
+                <ul className="project-description space-y-3">
                   {proj.bullets.map((b, bIdx) => (
                     <li key={bIdx} className="flex gap-3 items-start text-[14px] text-[#374151] leading-relaxed">
                       <span className="mt-[7px] shrink-0 w-2 h-2 rounded-full bg-[#2A8C6E]" />

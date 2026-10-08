@@ -1,0 +1,13 @@
+WELCOME ANALYST
+
+Ecommerce Analytics
+
+Ask questions, calculate statistics, and create charts from the database.
+
+API connected
+Try “Which month had the highest sales?” or ask for a chart.
+Show monthly revenue as a line chart
+Which categories have the highest sales?
+What is the median delivery time?
+Question
+Ask

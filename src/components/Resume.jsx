@@ -5,7 +5,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 gsap.registerPlugin(ScrollTrigger);
 
 const resumeData = {
-  summary: "Motivated ML & Data Science engineer with a strong foundation in Python, deep learning, and statistical modelling. Experienced in building and deploying end-to-end AI/ML solutions — from model development to production. Skilled in LLMs, RAG pipelines, and full-stack AI application deployment.",
+  summary: "Final-year Information Technology student with a 9.16/10 CGPA and internship experience building AI agents, RAG pipelines, and machine learning applications. Skilled in Python, LangChain, LangGraph, FastAPI, and PostgreSQL, with experience deploying applications using Docker, Render, and Hugging Face Spaces.",
   education: [
     {
       degree: "B.E. in Information Technology",
@@ -17,14 +17,25 @@ const resumeData = {
   ],
   experience: [
     {
+      role: "GenAI Intern",
+      company: "Parallel Minds",
+      location: "Pune, India",
+      period: "Jul 2026 – Present",
+      bullets: [
+        "Build AI agents and Generative AI applications using Python, LangChain, and large language models.",
+        "Develop RAG pipelines with embeddings and vector databases; refine prompts to improve response quality.",
+        "Build FastAPI REST services and integrate AI workflows with PostgreSQL-backed applications.",
+      ]
+    },
+    {
       role: "AI/ML Intern — GenAI & LLM",
       company: "Edu Plus Now · UDNAV ERP Software Technologies",
       location: "Pune",
       period: "Jan 2026 – Apr 2026",
       bullets: [
         "Completed 120-hour intensive program on AI, ML, Generative AI, and Large Language Models.",
-        "Built projects covering Transformer architectures, prompt engineering, and RAG-based retrieval systems.",
-        "Collaborated on applied AI solutions with PVG's College of Engineering and Technology.",
+        "Built AI applications with Streamlit interfaces and FastAPI services; integrated Gemini and Groq APIs.",
+        "Debugged Docker deployment issues and delivered AI applications on Hugging Face Spaces with full SDLC documentation.",
       ]
     },
     {
@@ -41,16 +52,16 @@ const resumeData = {
   ],
   skills: [
     { label: "ML / DL", value: "Python, TensorFlow, PyTorch, Scikit-Learn, CNNs, RNNs, NLP, OpenCV" },
-    { label: "GenAI & LLMs", value: "Transformers, LangChain, RAG, FAISS, HuggingFace, Prompt Engineering" },
+    { label: "GenAI & LLMs", value: "Transformers, LangChain, LangGraph, LangSmith, LangServe, RAG, FAISS, Hugging Face, Prompt Engineering" },
     { label: "Data & Analytics", value: "Pandas, NumPy, Matplotlib, Seaborn, PostgreSQL, Tableau" },
-    { label: "Deployment", value: "FastAPI, Flask, Streamlit, Docker, Render" },
-    { label: "Tools", value: "Git, GitHub, Jupyter, VS Code, C++, Java" },
+    { label: "Deployment", value: "FastAPI, Flask, Streamlit, REST APIs, Docker, Render, Hugging Face Spaces" },
+    { label: "Tools", value: "Git, GitHub, Jupyter, VS Code, SQL, MongoDB, C++, Java (Basics)" },
   ],
   certifications: [
     "AWS re/Start Graduate",
-    "Programming Using Python",
+    "Programming Using Python (NIIT)",
     "ChatGPT For Everyone",
-    "Software Engineering Job Simulation",
+    "Software Engineering Job Simulation (Forage)",
     "Advanced C++",
   ]
 };
@@ -85,7 +96,7 @@ export default function Resume() {
           <h2 className="text-[28px] md:text-[36px] font-bold text-[#111111] leading-tight">
             Yash Bora —{' '}
             <span className="relative inline-block text-[#2A8C6E]">
-              ML Engineer
+              AI/ML Engineer
               <span className="absolute bottom-0 left-0 w-full h-[2px] bg-[#2A8C6E]" />
             </span>
           </h2>
@@ -93,6 +104,7 @@ export default function Resume() {
         </div>
         <a
           href="/Yash_Bora_Resume.pdf"
+          download="Yash_Bora_Resume.pdf"
           target="_blank"
           rel="noopener noreferrer"
           className="shrink-0 flex items-center gap-2 px-6 py-3 bg-[#111111] hover:bg-[#333] text-white text-[12px] font-semibold tracking-wide rounded-xl transition-all duration-300 hover:scale-105 shadow-md"
@@ -158,12 +170,18 @@ export default function Resume() {
           <h3 className="text-[10px] font-bold tracking-[0.4em] text-[#7C98A4] uppercase mb-5">Technical Skills</h3>
           <div className="space-y-3">
             {resumeData.skills.map((s, i) => (
-              <div key={i} className="flex gap-4 text-[14px]">
+              <div key={i} className="flex flex-col sm:flex-row gap-1 sm:gap-4 text-[14px]">
                 <span className="shrink-0 w-[130px] font-semibold text-[#111111]">{s.label}</span>
                 <span className="text-[#6B7280] leading-relaxed">{s.value}</span>
               </div>
             ))}
           </div>
+        </div>
+
+        <div className="resume-block bg-white rounded-2xl border border-[#E5E7EB] p-7 shadow-sm">
+          <h3 className="text-[10px] font-bold tracking-[0.4em] text-[#7C98A4] uppercase mb-4">Problem Solving</h3>
+          <p className="text-[14px] text-[#374151] leading-relaxed">343+ LeetCode problems solved: 155 Easy, 170 Medium, and 18 Hard. Earned the 100 Days Badge 2026 with a 30-day maximum streak.</p>
+          <a href="https://leetcode.com/u/yashbora/" target="_blank" rel="noopener noreferrer" className="inline-block mt-3 text-sm font-semibold text-[#2A6B5C] underline">View LeetCode profile</a>
         </div>
 
         {/* Certifications */}

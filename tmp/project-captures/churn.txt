@@ -1,0 +1,18 @@
+Predict Employee Retention
+
+Below is an example form built to predict the HR Employee Retention in an Organization
+
+Employee Details
+Satisfaction Level
+Last Evaluation
+Number Of Project
+Average Monthly Hours
+Time Spend Company
+Work Accident
+Promotion Last 5 Years
+Salary
+Submit
+
+© 2025 YASH
+
+Privacy Terms Support

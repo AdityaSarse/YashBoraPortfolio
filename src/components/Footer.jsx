@@ -8,7 +8,7 @@ export default function Footer() {
       <div className="custom-container flex flex-col md:flex-row md:justify-between items-center gap-6">
         {/* Logo Text */}
         <span className="text-[11px] font-bold tracking-[0.3em] text-[#111111] uppercase font-serif">
-          YASH BORA — SYSTEMS ENGINE
+          YASH BORA — AI / ML ENGINEER
         </span>
         
         {/* Copyright */}

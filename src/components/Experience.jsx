@@ -158,8 +158,8 @@ const experiences = [
     date: "JAN 2026 – APR 2026",
     bullets: [
       "Completed a 120-hour intensive internship program covering AI, Machine Learning, Generative AI, and Large Language Models (LLMs) in offline mode.",
-      "Gained hands-on experience with GenAI concepts including Transformer architectures, LLMs, prompt engineering, and RAG-based systems.",
-      "Collaborated with peers on applied AI projects in association with PVG's College of Engineering and Technology, Pune.",
+      "Built AI applications with Streamlit interfaces and FastAPI services, integrating Gemini and Groq APIs for LLM workflows.",
+      "Debugged Docker deployment issues and delivered AI tools on Hugging Face Spaces with full SDLC documentation, in association with PVG's College of Engineering and Technology, Pune.",
     ]
   },
   {

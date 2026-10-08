@@ -1,126 +1,107 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 
-const changingTexts = [
-  "YASH BORA",
-  "AI ENGINEER",
-  "GEN AI BUILDER",
-  "ML ENGINEER",
+const names = [
+  { text: 'यश बोरा', lang: 'hi', label: 'Hindi' },
+  { text: 'યશ બોરા', lang: 'gu', label: 'Gujarati' },
+  { text: 'ヤシュ・ボラ', lang: 'ja', label: 'Japanese' },
+  { text: 'Yash Bora', lang: 'fr', label: 'French' },
+  { text: '亚什·博拉', lang: 'zh-Hans', label: 'Chinese' },
+  { text: '야시 보라', lang: 'ko', label: 'Korean' },
+  { text: 'ياش بورا', lang: 'ar', label: 'Arabic' },
+  { text: 'Яш Бора', lang: 'ru', label: 'Russian' },
+  { text: 'யஷ் போரா', lang: 'ta', label: 'Tamil' },
+  { text: 'যশ বোরা', lang: 'bn', label: 'Bengali' },
+  { text: 'Yash Bora', lang: 'en', label: 'English' },
 ];
+const technologies = 'Python — LangGraph — FastAPI — Generative AI — PostgreSQL — Docker — RAG — TensorFlow — ';
+const colors = ['#168548', '#d62839', '#5a48c8', '#ca6907', '#167c99', '#b02e76', '#168548', '#5a48c8'];
 
 export default function Hero({ active }) {
-  const [textIndex, setTextIndex] = useState(0);
-  const textRef = useRef(null);
   const heroRef = useRef(null);
+  const loopsRef = useRef([]);
+  const pausedRef = useRef(false);
+  const [paused, setPaused] = useState(false);
 
   useEffect(() => {
     if (!active) return;
-    const ctx = gsap.context(() => {
-      // Continuous ring pulse
-      gsap.to('.hero-ring', {
-        scale: 1.05, duration: 4, repeat: -1, yoyo: true,
-        ease: 'sine.inOut',
-        stagger: { each: 0.3, from: 'center' }
-      });
-
-      // Entrance animations
-      const tl = gsap.timeline();
-      tl.from('.hero-ring', {
-        opacity: 0, scale: 0, duration: 1.5, stagger: 0.1,
-        ease: 'expo.out'
-      })
-      .from('.hero-reveal', {
-        opacity: 0, y: 40, duration: 1.2, stagger: 0.2,
-        ease: 'power4.out'
-      }, '-=1');
-    }, heroRef);
-    return () => ctx.revert();
+    const motion = gsap.matchMedia();
+    motion.add('(prefers-reduced-motion: no-preference)', () => {
+      const ctx = gsap.context(() => {
+        gsap.from('.hero-intro, .name-letter, .name-translations, .hero-actions', {
+          y: 24, opacity: 0, duration: 0.9, stagger: 0.055, ease: 'power3.out', clearProps: 'transform,opacity',
+        });
+        const layers = gsap.utils.toArray('.name-language');
+        gsap.set(layers.slice(1), { autoAlpha: 0, y: 24, filter: 'blur(7px)' });
+        const cycle = gsap.timeline({ repeat: -1 });
+        layers.forEach((layer, index) => {
+          const next = layers[(index + 1) % layers.length];
+          cycle.to(layer, { autoAlpha: 0, y: -22, filter: 'blur(7px)', duration: 0.65, ease: 'power2.inOut' }, '+=2.5')
+            .fromTo(next, { autoAlpha: 0, y: 24, filter: 'blur(7px)' }, { autoAlpha: 1, y: 0, filter: 'blur(0px)', duration: 0.85, ease: 'power3.out', immediateRender: false }, '-=0.25');
+        });
+        const wave = gsap.to('.tech-wave textPath', {
+          attr: { startOffset: '-8%' }, duration: 18, repeat: -1, yoyo: true, ease: 'sine.inOut',
+        });
+        loopsRef.current = [cycle, wave];
+      }, heroRef);
+      let inView = true;
+      const sync = () => loopsRef.current.forEach(loop => loop.paused(pausedRef.current || !inView || document.hidden));
+      const observer = new IntersectionObserver(([entry]) => { inView = entry.isIntersecting; sync(); });
+      observer.observe(heroRef.current);
+      document.addEventListener('visibilitychange', sync);
+      sync();
+      return () => {
+        observer.disconnect();
+        document.removeEventListener('visibilitychange', sync);
+        loopsRef.current = [];
+        ctx.revert();
+      };
+    });
+    return () => motion.revert();
   }, [active]);
 
-  useEffect(() => {
-    if (!active) return;
-    const interval = setInterval(() => {
-      gsap.to(textRef.current, {
-        y: -25, opacity: 0, duration: 0.6, ease: 'power2.in',
-        onComplete: () => {
-          setTextIndex((prev) => (prev + 1) % changingTexts.length);
-          gsap.set(textRef.current, { y: 25 });
-          gsap.to(textRef.current, { y: 0, opacity: 1, duration: 0.7, ease: 'power2.out' });
-        }
-      });
-    }, 3200);
-    return () => clearInterval(interval);
-  }, [active]);
+  const toggleMotion = () => {
+    pausedRef.current = !pausedRef.current;
+    setPaused(pausedRef.current);
+    loopsRef.current.forEach(loop => loop.paused(pausedRef.current));
+  };
 
   return (
-    <section
-      ref={heroRef}
-      className="relative flex flex-col items-center justify-center w-full min-h-screen overflow-hidden bg-[#F4F4F4] py-16 px-4 select-none tech-grid-bg"
-    >
-      {/* Concentric rings */}
-      <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0">
-        <div className="hero-ring circle-ring w-[240px] h-[240px] border border-[#D9D9D9] absolute rounded-full"></div>
-        <div className="hero-ring circle-ring w-[380px] h-[380px] border border-[#D9D9D9] absolute rounded-full"></div>
-        <div className="hero-ring circle-ring w-[540px] h-[540px] border border-[#7C98A4]/40 absolute rounded-full flex items-center justify-center">
-          <div className="w-[530px] h-[530px] border border-[#7C98A4]/15 rounded-full"></div>
-        </div>
-        <div className="hero-ring circle-ring w-[780px] h-[780px] border border-[#D9D9D9] absolute rounded-full"></div>
-        <div className="hero-ring circle-ring w-[1100px] h-[1100px] border border-[#D9D9D9]/50 absolute rounded-full"></div>
-        <div className="hero-ring circle-ring w-[1450px] h-[1450px] border border-[#D9D9D9]/20 absolute rounded-full"></div>
+    <section id="home" ref={heroRef} className="reference-hero" data-paused={paused}>
+      <svg className="tech-wave" viewBox="0 0 1600 420" fill="none" aria-hidden="true">
+        <defs><path id="hero-tech-path" d="M-800 210 Q-600 -30 -400 210 T0 210 T400 210 T800 210 T1200 210 T1600 210 T2000 210 T2400 210" /></defs>
+        <text><textPath href="#hero-tech-path" startOffset="0%">{technologies.repeat(7)}</textPath></text>
+      </svg>
+      <div className="hero-intro">
+        <span className="hero-greeting"><span aria-hidden="true">✳</span> Hello, I'm</span>
+        <span className="hero-specialty">AI / ML ENGINEER · PUNE, INDIA</span>
       </div>
-
-      {/* Center content */}
-      <div className="relative z-10 flex flex-col items-center justify-center text-center max-w-2xl w-full">
-
-        {/* Profile photo */}
-        <div className="hero-reveal w-[160px] h-[160px] rounded-full overflow-hidden border border-[#D9D9D9] bg-black p-0 shadow-sm mb-6 flex items-center justify-center">
-          <img
-            src="hero.png"
-            alt="Yash Bora"
-            className="w-full h-full object-cover object-top rounded-full select-none"
-            draggable="false"
-          />
-        </div>
-
-        {/* Role label */}
-        <p className="hero-reveal text-[11px] font-medium tracking-[0.45em] text-[#6B7280] uppercase mb-4 md:mb-6">
-          AI / ML ENGINEER
-        </p>
-
-        {/* Animated name */}
-        <div className="hero-reveal h-[40px] md:h-[64px] flex items-center justify-center overflow-hidden mb-8 md:mb-12">
-          <h1
-            ref={textRef}
-            className="text-[28px] md:text-[52px] font-light tracking-[0.2em] md:tracking-[0.25em] text-[#111111] font-serif uppercase select-text"
-          >
-            {changingTexts[textIndex]}
-          </h1>
-        </div>
-
-        {/* Nav links */}
-        <nav className="hero-reveal flex flex-wrap items-center justify-center gap-x-8 gap-y-3 px-6 py-2 border-t border-b border-[#D9D9D9]/40">
-          {['ABOUT', 'EXPERIENCE', 'SKILLS', 'PROJECTS'].map((label) => (
-            <a
-              key={label}
-              href={`#${label.toLowerCase()}`}
-              className="text-[10px] md:text-[11px] font-semibold tracking-[0.25em] text-[#6B7280] hover:text-[#111111] transition-colors duration-300 uppercase clickable"
-            >
-              {label}
-            </a>
+      <div className="hero-name-stage">
+        <h1 className="reference-name" aria-label="Yash Bora">
+          {'YASH BORA'.split('').map((letter, index) => letter === ' ' ? <span key={index} className="name-space" aria-hidden="true" /> : (
+            <span key={index} className="name-letter" aria-hidden="true" style={{ '--letter-color': colors[index % colors.length] }}>
+              <span className="letter-orbit">◇</span>{letter}
+            </span>
           ))}
-        </nav>
+        </h1>
+        <div className="name-translations" aria-hidden="true">
+          {names.map(name => <div className="name-language" key={name.lang} lang={name.lang}>
+            <span className="translated-name" dir="auto">{name.text}</span>
+            <span className="language-label">{name.label}</span>
+          </div>)}
+        </div>
       </div>
-
-      {/* Scroll button */}
-      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-10 hero-reveal">
-        <button
-          onClick={() => document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' })}
-          className="w-[50px] h-[50px] rounded-full bg-[#7C98A4] hover:bg-[#68828D] text-white flex items-center justify-center shadow-lg transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer clickable group"
-          aria-label="Scroll Down"
-        >
-          <svg className="w-5 h-5 text-white transition-transform duration-300 group-hover:translate-y-0.5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-          </svg>
+      <div className="hero-actions">
+        <p>Building AI agents, intelligent search, and ideas that work beyond the demo.</p>
+        <div className="hero-links">
+          <a href="#projects" className="hero-primary-link">Explore my work <span aria-hidden="true">↘</span></a>
+          <a href="/Yash_Bora_Resume.pdf" download>Download résumé <span aria-hidden="true">↓</span></a>
+        </div>
+      </div>
+      <div className="hero-bottom">
+        <a href="#about">SCROLL TO EXPLORE <span aria-hidden="true">↓</span></a>
+        <button type="button" className="hero-motion-toggle" onClick={toggleMotion} aria-pressed={paused} aria-label={paused ? 'Resume hero animation' : 'Pause hero animation'}>
+          <span aria-hidden="true">{paused ? '▶' : 'Ⅱ'}</span> {paused ? 'Resume motion' : 'Pause motion'}
         </button>
       </div>
     </section>

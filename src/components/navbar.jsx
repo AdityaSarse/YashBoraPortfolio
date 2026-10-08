@@ -1,11 +1,41 @@
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
+
+const sections = ['about', 'experience', 'skills', 'projects', 'resume', 'contact'];
 
 export default function Navbar({ active }) {
   const navRef = useRef(null);
+  const progressRef = useRef(null);
+  const [current, setCurrent] = useState('');
 
   useEffect(() => {
     if (!active) return;
+    let frame;
+    const update = () => {
+      const height = document.documentElement.scrollHeight - window.innerHeight;
+      progressRef.current.style.transform = `scaleX(${height > 0 ? window.scrollY / height : 0})`;
+      let next = '';
+      for (const id of sections) {
+        if (document.getElementById(id)?.getBoundingClientRect().top <= window.innerHeight * 0.35) next = id;
+      }
+      setCurrent(next);
+    };
+    const schedule = () => { cancelAnimationFrame(frame); frame = requestAnimationFrame(update); };
+    const resize = new ResizeObserver(schedule);
+    resize.observe(document.body);
+    window.addEventListener('scroll', schedule, { passive: true });
+    window.addEventListener('resize', schedule);
+    schedule();
+    return () => {
+      cancelAnimationFrame(frame);
+      resize.disconnect();
+      window.removeEventListener('scroll', schedule);
+      window.removeEventListener('resize', schedule);
+    };
+  }, [active]);
+
+  useEffect(() => {
+    if (!active || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
     // Soft GSAP entrance for the navbar elements
     const ctx = gsap.context(() => {
@@ -25,10 +55,10 @@ export default function Navbar({ active }) {
   return (
     <header 
       ref={navRef}
-      className="fixed top-0 left-0 w-full z-50 flex justify-between items-center py-5 md:py-6 px-10 md:px-24 select-none bg-white/70 backdrop-blur-md border-b border-[#D9D9D9]/50 pointer-events-auto"
+      className="fixed top-0 left-0 w-full z-50 flex justify-between items-center py-4 md:py-5 px-5 md:px-12 select-none bg-white/90 backdrop-blur-md border-b border-[#D9D9D9]/50 pointer-events-auto"
     >
       {/* Top Left: Social Icons */}
-      <div className="flex items-center gap-8 nav-fade-in pointer-events-auto">
+      <div className="flex items-center gap-4 nav-fade-in pointer-events-auto">
         {/* LinkedIn */}
         <a 
           href="https://www.linkedin.com/in/yash-bora-149787290/" 
@@ -92,9 +122,13 @@ export default function Navbar({ active }) {
           <svg className="w-5 h-5 text-inherit" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
           </svg>
-          <span>GET IN TOUCH</span>
+          <span className="hidden sm:inline">GET IN TOUCH</span>
         </a>
       </div>
+      <nav className="section-nav" aria-label="Portfolio sections">
+        {sections.map(id => <a key={id} href={`#${id}`} aria-current={current === id ? 'location' : undefined}>{id}</a>)}
+      </nav>
+      <div className="reading-progress" ref={progressRef} aria-hidden="true" />
     </header>
   );
 }
