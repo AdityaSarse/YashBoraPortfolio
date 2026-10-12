@@ -1,136 +1,23 @@
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
-// ─── edu plus now logo ────────────────────────────────────────────────────────
-const EduPlusNowLogo = () => (
-  <svg viewBox="0 0 120 60" className="w-[80px] h-[40px]" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M28 48 A22 22 0 1 1 50 10" stroke="url(#arcGrad2)" strokeWidth="7" strokeLinecap="round" fill="none" />
-    <line x1="10" y1="30" x2="46" y2="30" stroke="url(#arcGrad2)" strokeWidth="7" strokeLinecap="round" />
-    <text x="46" y="14" fontSize="13" fontWeight="900" fill="#00B5A5" fontFamily="sans-serif">+</text>
-    <text x="58" y="26" fontSize="11" fontWeight="800" fill="#0D3349" fontFamily="sans-serif" letterSpacing="-0.3">edu</text>
-    <text x="58" y="38" fontSize="11" fontWeight="800" fill="#0D3349" fontFamily="sans-serif" letterSpacing="-0.3">plus</text>
-    <rect x="57" y="41" width="24" height="11" rx="2" fill="#00B5A5" />
-    <text x="69" y="49.5" fontSize="8" fontWeight="700" fill="white" fontFamily="sans-serif" textAnchor="middle">now</text>
-    <defs>
-      <linearGradient id="arcGrad2" x1="10" y1="10" x2="50" y2="50" gradientUnits="userSpaceOnUse">
-        <stop offset="0%" stopColor="#0D3349" />
-        <stop offset="100%" stopColor="#00B5A5" />
-      </linearGradient>
-    </defs>
-  </svg>
-);
-
-// ─── Edunet Foundation logo ───────────────────────────────────────────────────
-const EdunetLogo = () => (
-  <div className="flex flex-col items-center justify-center font-sans select-none">
-    <span className="text-[19px] font-extrabold text-[#0B2545] tracking-tight leading-none">edunet</span>
-    <span className="text-[9px] font-semibold text-[#F26419] tracking-wider leading-none mt-0.5">foundation</span>
-  </div>
-);
-
-// ─── Parallel Minds logo (Simple Placeholder) ─────────────────────────────────
-const ParallelMindsLogo = () => (
-  <div className="flex items-center justify-center font-sans select-none text-center leading-none">
-    <span className="text-[14px] font-black text-[#7C98A4] tracking-tighter">PARALLEL</span>
-    <span className="text-[14px] font-light text-[#111111] ml-1">MINDS</span>
-  </div>
-);
-
-// ─── Tech icon SVGs ───────────────────────────────────────────────────────────
-const PythonIcon = () => (
-  <svg viewBox="0 0 24 24" className="w-7 h-7" fill="none">
-    <path d="M11.914 0C5.82 0 6.2 2.656 6.2 2.656l.007 2.752h5.814v.826H3.89S0 5.789 0 11.969c0 6.18 3.403 5.96 3.403 5.96h2.03v-2.867s-.109-3.403 3.35-3.403h5.769s3.24.052 3.24-3.13V3.13S18.28 0 11.914 0zm-3.2 1.812a1.04 1.04 0 1 1 0 2.08 1.04 1.04 0 0 1 0-2.08z" fill="#366994"/>
-    <path d="M12.086 24c6.094 0 5.714-2.656 5.714-2.656l-.007-2.752H12v-.826h8.131S24 18.211 24 12.031c0-6.18-3.403-5.96-3.403-5.96h-2.03v2.867s.109 3.403-3.35 3.403H9.448s-3.24-.052-3.24 3.13v5.399S5.72 24 12.086 24zm3.2-1.812a1.04 1.04 0 1 1 0-2.08 1.04 1.04 0 0 1 0 2.08z" fill="#FFC331"/>
-  </svg>
-);
-
-const TensorFlowIcon = () => (
-  <svg viewBox="0 0 24 24" className="w-7 h-7" fill="none">
-    <path d="M1.292 5.856L11.54 0v24l-4.095-2.378V7.603l-6.168 3.564.015-5.31z" fill="#FF8000"/>
-    <path d="M22.708 5.856L12.46 0v10.963l6.168 3.564V7.603l4.08 2.356-.016-4.103z" fill="#FF8000"/>
-    <path d="M18.628 14.189l-6.168-3.226v6.452l6.168 3.614V14.19z" fill="#FF8000"/>
-  </svg>
-);
-
-const ScikitLearnIcon = () => (
-  <svg viewBox="0 0 24 24" className="w-7 h-7">
-    <circle cx="8" cy="8.5" r="4" fill="#3499CD"/>
-    <circle cx="14" cy="8.5" r="4" fill="#F7931E"/>
-    <circle cx="11" cy="14" r="4" fill="#2D6F9E"/>
-  </svg>
-);
-
-const KerasIcon = () => (
-  <svg viewBox="0 0 24 24" className="w-7 h-7">
-    <rect x="2" y="2" width="20" height="20" rx="4" fill="#D00000"/>
-    <path d="M7 5h2.5v5.5L13.5 5H17l-4.5 6 5 8h-3.5L10.5 12v7H7V5z" fill="white"/>
-  </svg>
-);
-
-const SeabornIcon = () => (
-  <svg viewBox="0 0 24 24" className="w-7 h-7">
-    <rect x="3" y="14" width="3" height="7" rx="1" fill="#4C72B0"/>
-    <rect x="8" y="9" width="3" height="12" rx="1" fill="#5F87C6"/>
-    <rect x="13" y="11" width="3" height="10" rx="1" fill="#7C9BD4"/>
-    <rect x="18" y="5" width="3" height="16" rx="1" fill="#9FB8E5"/>
-    <line x1="3" y1="21" x2="21" y2="21" stroke="#333" strokeWidth="0.75"/>
-  </svg>
-);
-
-const JupyterIcon = () => (
-  <svg viewBox="0 0 24 24" className="w-7 h-7" fill="none">
-    <circle cx="12" cy="12" r="10" fill="#F5F5F5" stroke="#E0E0E0" strokeWidth="0.5"/>
-    <ellipse cx="12" cy="10" rx="6" ry="2.5" stroke="#F37726" strokeWidth="1.5" fill="none"/>
-    <circle cx="6" cy="10" r="1" fill="#F37726"/>
-    <circle cx="18" cy="10" r="1" fill="#F37726"/>
-    <circle cx="12" cy="17" r="1.2" fill="#979797"/>
-  </svg>
-);
-
-const OpenAIIcon = () => (
-  <svg viewBox="0 0 24 24" className="w-7 h-7" fill="#10A37F">
-    <path d="M22.282 9.821a5.985 5.985 0 0 0-.516-4.91 6.046 6.046 0 0 0-6.51-2.9A6.065 6.065 0 0 0 4.981 4.18a5.985 5.985 0 0 0-3.998 2.9 6.046 6.046 0 0 0 .743 7.097 5.98 5.98 0 0 0 .51 4.911 6.051 6.051 0 0 0 6.515 2.9A5.985 5.985 0 0 0 13.26 24a6.056 6.056 0 0 0 5.772-4.206 5.99 5.99 0 0 0 3.997-2.9 6.056 6.056 0 0 0-.747-7.073zM13.26 22.43a4.476 4.476 0 0 1-2.876-1.04l.141-.081 4.779-2.758a.795.795 0 0 0 .392-.681v-6.737l2.02 1.168a.071.071 0 0 1 .038.052v5.583a4.504 4.504 0 0 1-4.494 4.494zM3.6 18.304a4.47 4.47 0 0 1-.535-3.014l.142.085 4.783 2.759a.771.771 0 0 0 .78 0l5.843-3.369v2.332a.08.08 0 0 1-.033.062L9.74 19.95a4.5 4.5 0 0 1-6.14-1.646zM2.34 7.896a4.485 4.485 0 0 1 2.366-1.973V11.6a.766.766 0 0 0 .388.677l5.815 3.355-2.02 1.168a.076.076 0 0 1-.071 0l-4.83-2.786A4.504 4.504 0 0 1 2.34 7.896zm16.597 3.855l-5.833-3.387 2.019-1.168a.076.076 0 0 1 .071 0l4.83 2.791a4.494 4.494 0 0 1-.676 8.105v-5.678a.79.79 0 0 0-.411-.663zm2.01-3.023l-.141-.085-4.774-2.782a.776.776 0 0 0-.785 0L9.409 9.23V6.897a.066.066 0 0 1 .028-.061l4.83-2.787a4.5 4.5 0 0 1 6.68 4.66zm-12.64 4.135l-2.02-1.164a.08.08 0 0 1-.038-.057V6.075a4.5 4.5 0 0 1 7.375-3.453l-.142.08L8.704 5.46a.795.795 0 0 0-.393.681zm1.097-2.365l2.602-1.5 2.607 1.5v2.999l-2.597 1.5-2.607-1.5z\"/>
-  </svg>
-);
-
-const HuggingFaceIcon = () => (
-  <svg viewBox="0 0 24 24" className="w-7 h-7">
-    <circle cx="12" cy="12" r="10" fill="#FFD21E"/>
-    <text x="12" y="16" fontSize="11" textAnchor="middle" dominantBaseline="middle">🤗</text>
-  </svg>
-);
-
-const LangChainIcon = () => (
-  <svg viewBox="0 0 24 24" className="w-7 h-7" fill="none">
-    <circle cx="12" cy="12" r="10" fill="#F4F4F4" stroke="#D9D9D9" strokeWidth="1"/>
-    <text x="7.5" y="14.5" fontSize="10" textAnchor="middle">🦜</text>
-    <text x="16.5" y="14.5" fontSize="10" textAnchor="middle">🔗</text>
-  </svg>
-);
-
-const GenAIIcon = () => (
-  <svg viewBox="0 0 24 24" className="w-7 h-7" fill="#9B5DE5">
-    <path d="M12 2l2.4 7.2 7.2 2.4-7.2 2.4-2.4 7.2-2.4-7.2-7.2-2.4 7.2-2.4z"/>
-    <path d="M19 4l1 3 3 1-3 1-1 3-1-3-3-1 3-1z" fill="#F15BB5"/>
-  </svg>
-);
-
-// ─── Experience Data ───────────────────────────────────────────────────────────
 const experiences = [
   {
-    logoNode: <ParallelMindsLogo />,
+    logoNode: <img src="/logos/parallelminds.png" alt="Parallel Minds" />,
     role: "GenAI Intern",
     companyPrimary: "Parallel Minds",
     location: "Pune, India",
     techStack: [
-      { name: "Python",       icon: <PythonIcon /> },
-      { name: "LangChain",    icon: <LangChainIcon /> },
-      { name: "OpenAI",       icon: <OpenAIIcon /> },
-      { name: "Hugging Face", icon: <HuggingFaceIcon /> },
-      { name: "GenAI",        icon: <GenAIIcon /> },
+      { name: "Python" },
+      { name: "LangChain" },
+      { name: "OpenAI" },
+      { name: "Hugging Face" },
+      { name: "GenAI" },
+      { name: "FastAPI" },
+      { name: "PostgreSQL" },
     ],
     date: "JUL 2026 – PRESENT",
     bullets: [
@@ -141,19 +28,24 @@ const experiences = [
     ]
   },
   {
-    logoNode: <EduPlusNowLogo />,
+    logoNode: <img src="/logos/eduplus.png" alt="Edu Plus Now" />,
     role: "AI/ML Intern — Artificial Intelligence, Machine Learning, GenAI & LLM",
     companyPrimary: "edu plus now",
     companySub: "UDNAV ERP Software Technologies",
     companySubItalic: "(A Vishwakarma Group Initiative)",
     location: "Pune, India",
     techStack: [
-      { name: "Python",       icon: <PythonIcon /> },
-      { name: "AI/Neural",    icon: <GenAIIcon /> },
-      { name: "OpenAI",       icon: <OpenAIIcon /> },
-      { name: "Hugging Face", icon: <HuggingFaceIcon /> },
-      { name: "LangChain",    icon: <LangChainIcon /> },
-      { name: "GenAI",        icon: <GenAIIcon /> },
+      { name: "Python" },
+      { name: "AI/Neural" },
+      { name: "OpenAI" },
+      { name: "Hugging Face" },
+      { name: "LangChain" },
+      { name: "GenAI" },
+      { name: "Streamlit" },
+      { name: "FastAPI" },
+      { name: "Gemini" },
+      { name: "Groq" },
+      { name: "Docker" },
     ],
     date: "JAN 2026 – APR 2026",
     bullets: [
@@ -163,17 +55,17 @@ const experiences = [
     ]
   },
   {
-    logoNode: <EdunetLogo />,
+    logoNode: <img src="/logos/edunet.svg" alt="Edunet Foundation" />,
     role: "Project Intern — Machine Learning & Deep Learning",
     companyPrimary: "Edunet Foundation",
     location: "Pune, India",
     techStack: [
-      { name: "Python",       icon: <PythonIcon /> },
-      { name: "TensorFlow",   icon: <TensorFlowIcon /> },
-      { name: "Scikit-Learn", icon: <ScikitLearnIcon /> },
-      { name: "Keras",        icon: <KerasIcon /> },
-      { name: "Seaborn",      icon: <SeabornIcon /> },
-      { name: "Jupyter",      icon: <JupyterIcon /> },
+      { name: "Python" },
+      { name: "TensorFlow" },
+      { name: "Scikit-Learn" },
+      { name: "Keras" },
+      { name: "Seaborn" },
+      { name: "Jupyter" },
     ],
     date: "JAN 2025 – FEB 2025",
     bullets: [
@@ -185,27 +77,35 @@ const experiences = [
 ];
 
 // ─── Main Component ───────────────────────────────────────────────────────────
-export default function Experience() {
+const toneFor = (name) => {
+  if (['FastAPI', 'PostgreSQL', 'Docker', 'Streamlit'].includes(name)) return 'backend';
+  if (['Python', 'LangChain', 'OpenAI', 'Hugging Face', 'GenAI', 'AI/Neural', 'Gemini', 'Groq', 'TensorFlow', 'Scikit-Learn', 'Keras'].includes(name)) return 'ml';
+  return 'data';
+};
+
+export default function Experience({ selectedSkill, onSelectSkill, onHoverSkills }) {
   const containerRef = useRef(null);
+  const timelineRef = useRef(null);
+  const [expandedIndex, setExpandedIndex] = useState(null);
 
   useEffect(() => {
-    const ctx = gsap.context(() => {
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: 'top 78%',
-          toggleActions: 'play none none none'
-        }
-      });
-
-      tl.from('.exp-header', { y: 35, opacity: 0, duration: 0.85, ease: 'power3.out' });
-      tl.from('.experience-card', {
-        y: 55, opacity: 0, duration: 1.0, stagger: 0.2, ease: 'power3.out'
-      }, '-=0.5');
-    }, containerRef);
-
-    return () => ctx.revert();
+    const motion = gsap.matchMedia();
+    motion.add('(prefers-reduced-motion: no-preference)', () => {
+      const ctx = gsap.context(() => {
+        gsap.from('.exp-header', { y: 24, opacity: 0, duration: .75, ease: 'power3.out', scrollTrigger: { trigger: containerRef.current, start: 'top 82%', once: true } });
+        const cards = gsap.utils.toArray('.experience-card');
+        cards.forEach((card, index) => {
+          gsap.from(card, { y: 28, opacity: 0, duration: .7, delay: index * .1, ease: 'power3.out', clearProps: 'transform,opacity', scrollTrigger: { trigger: card, start: 'top 88%', once: true } });
+          ScrollTrigger.create({ trigger: card, start: 'top 70%', onEnter: () => card.classList.add('is-reached'), onLeaveBack: () => card.classList.remove('is-reached') });
+        });
+        gsap.fromTo('.timeline-progress', { strokeDashoffset: 1 }, { strokeDashoffset: 0, ease: 'none', scrollTrigger: { trigger: timelineRef.current, start: 'top 72%', end: 'bottom 72%', scrub: true } });
+      }, containerRef);
+      return () => ctx.revert();
+    });
+    return () => motion.revert();
   }, []);
+
+  const matchingCount = selectedSkill ? experiences.filter(exp => exp.techStack.some(tech => tech.name === selectedSkill)).length : 0;
 
   return (
     <section
@@ -223,27 +123,40 @@ export default function Experience() {
         <div className="w-8 h-[2.5px] bg-[#72B3A2] rounded-full mb-6" />
         {/* Display heading */}
         <h3 className="w-full text-[26px] md:text-[32px] font-bold text-[#111111] leading-tight mb-4">
-          Hands-on experience.{' '}
+          My professional journey.{' '}
           <span className="relative inline-block">
             Real-world impact.
             <span className="absolute bottom-0 left-0 w-full h-[2.5px] bg-[#111111]" />
           </span>
         </h3>
         {/* Subtitle */}
-        <p className="text-[14px] text-[#6B7280] font-light leading-relaxed whitespace-nowrap">
+        <p className="text-[14px] text-[#6B7280] font-light leading-relaxed">
           Some of the internships and training experiences that shaped my journey in AI &amp; ML.
         </p>
+        {selectedSkill && <div className="experience-filter" role="status">
+          <span>{matchingCount ? `${matchingCount} ${matchingCount === 1 ? 'role' : 'roles'} using ${selectedSkill}` : `No listed role using ${selectedSkill}`}</span>
+          <button type="button" onClick={() => onSelectSkill(null)}>Clear filter <span aria-hidden="true">×</span></button>
+        </div>}
       </div>
 
       {/* ── Two-column card grid ── */}
-      <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch">
+      <div className="experience-timeline-wrap max-w-5xl mx-auto">
+        <svg className="experience-timeline-line" viewBox="0 0 18 1000" preserveAspectRatio="none" aria-hidden="true">
+          <path d="M9 0 V1000" vectorEffect="non-scaling-stroke" className="timeline-track" />
+          <path d="M9 0 V1000" pathLength="1" vectorEffect="non-scaling-stroke" className="timeline-progress" />
+        </svg>
+      <ol ref={timelineRef} className="experience-timeline" aria-label="Professional experience timeline">
         {experiences.map((exp, idx) => (
-          <div
-            key={idx}
-            className="experience-card bg-white rounded-[22px] p-8 shadow-[0_2px_16px_rgba(0,0,0,0.07)] hover:shadow-[0_6px_28px_rgba(0,0,0,0.11)] transition-shadow duration-300 flex flex-col"
+          <li
+            key={exp.companyPrimary}
+            className={`experience-card rounded-[22px] p-8 shadow-[0_2px_16px_rgba(0,0,0,0.07)] hover:shadow-[0_6px_28px_rgba(0,0,0,0.11)] transition-shadow duration-300 flex flex-col${selectedSkill ? (exp.techStack.some(tech => tech.name === selectedSkill) ? ' is-matched' : ' is-dimmed') : ''}`}
+            onMouseEnter={() => onHoverSkills(exp.techStack.map(tech => tech.name))}
+            onMouseLeave={() => onHoverSkills([])}
+            onFocusCapture={() => onHoverSkills(exp.techStack.map(tech => tech.name))}
+            onBlurCapture={(event) => { if (!event.currentTarget.contains(event.relatedTarget)) onHoverSkills([]); }}
           >
             {/* Logo — centered in a clean circle */}
-            <div className="w-[96px] h-[96px] rounded-full bg-[#F7F8FA] border border-[#EBEBEB] flex items-center justify-center mb-7 mx-auto">
+            <div className="company-logo-wrap">
               {exp.logoNode}
             </div>
 
@@ -271,14 +184,15 @@ export default function Experience() {
 
             {/* Tech stack icons — bigger, raw icons, no double-circle wrapper */}
             <div className="flex flex-wrap gap-2.5 mb-5">
-              {exp.techStack.map((tech, tIdx) => (
-                <div
-                  key={tIdx}
+              {exp.techStack.map((tech) => (
+                <span
+                  key={tech.name}
                   title={tech.name}
-                  className="w-10 h-10 flex items-center justify-center hover:scale-110 transition-transform duration-200 clickable"
+                  data-tone={toneFor(tech.name)}
+                  className={`experience-tech${selectedSkill === tech.name ? ' is-active' : ''}`}
                 >
-                  {tech.icon}
-                </div>
+                  {tech.name}
+                </span>
               ))}
             </div>
 
@@ -288,7 +202,12 @@ export default function Experience() {
             </div>
 
             {/* Bullets */}
-            <ul className="space-y-2.5 text-[13.5px] text-[#4B5563] font-light leading-relaxed select-text flex-grow">
+            <button type="button" className="experience-details-toggle" aria-expanded={expandedIndex === idx} aria-controls={`experience-details-${idx}`} onClick={() => setExpandedIndex(expandedIndex === idx ? null : idx)}>
+              <span>{expandedIndex === idx ? 'Hide details' : 'View details'}</span>
+              <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m5 7 5 5 5-5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></svg>
+            </button>
+            <div id={`experience-details-${idx}`} className={`experience-details${expandedIndex === idx ? ' is-open' : ''}`} aria-hidden={expandedIndex !== idx}>
+            <ul className="space-y-2.5 text-[13.5px] text-[#4B5563] font-light leading-relaxed select-text">
               {exp.bullets.map((b, bIdx) => (
                 <li key={bIdx} className="flex gap-2.5 items-start">
                   <span className="text-[#111111] mt-[5px] shrink-0">•</span>
@@ -296,8 +215,10 @@ export default function Experience() {
                 </li>
               ))}
             </ul>
-          </div>
+            </div>
+          </li>
         ))}
+      </ol>
       </div>
     </section>
   );

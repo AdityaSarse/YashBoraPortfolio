@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -18,6 +18,8 @@ gsap.registerPlugin(ScrollTrigger);
 export default function App() {
     const [loading, setLoading] = useState(true);
     const [animationStarted, setAnimationStarted] = useState(false);
+    const [selectedSkill, setSelectedSkill] = useState(null);
+    const [hoveredSkills, setHoveredSkills] = useState([]);
     const appRef = useRef(null);
 
     useEffect(() => {
@@ -108,8 +110,8 @@ export default function App() {
                 <Navbar active={animationStarted} />
                 <Hero active={animationStarted} />
                 <About />
-                <Experience />
-                <Skills />
+                <Skills selectedSkill={selectedSkill} onSelectSkill={setSelectedSkill} hoveredSkills={hoveredSkills} />
+                <Experience selectedSkill={selectedSkill} onSelectSkill={setSelectedSkill} onHoverSkills={setHoveredSkills} />
                 <Projects />
                 <Resume />
                 <Contact />

@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import TechLogo from './TechLogo';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -396,7 +397,6 @@ const projects = [
   },
 ];
 
-const CARD_HEIGHT = 520;
 
 export default function Projects() {
   const containerRef = useRef(null);
@@ -419,14 +419,18 @@ export default function Projects() {
       wrapperRefs.current.forEach((wrapper, idx) => {
         if (!wrapper) return;
         const card = cardRefs.current[idx];
+        const slideDistance = window.matchMedia('(max-width: 767px)').matches ? 44 : 96;
         const reveal = gsap.timeline({
-          scrollTrigger: { trigger: wrapper, start: 'top 90%', toggleActions: 'play none none none' },
+          scrollTrigger: { trigger: wrapper, start: 'top 88%', once: true },
+          onComplete: () => card.classList.add('slide-complete'),
         });
         reveal.from(card.querySelector('.project-visual'), {
-          y: 24, opacity: 0, duration: 0.9, ease: 'power3.out', clearProps: 'transform,opacity',
-        }).from(card.querySelectorAll('.project-heading, .project-badges, .project-description'), {
-          y: 18, opacity: 0, duration: 0.7, stagger: 0.1, ease: 'power3.out', clearProps: 'transform,opacity',
-        }, '-=0.4');
+          x: -slideDistance, opacity: 0, duration: 1.05, ease: 'power3.out', clearProps: 'transform,opacity',
+        }).from(card.querySelector('.project-content'), {
+          x: slideDistance, opacity: 0, duration: .95, ease: 'power3.out', clearProps: 'transform,opacity',
+        }, '-=0.82').from(card.querySelectorAll('.project-heading, .project-badges, .project-description'), {
+          y: 14, opacity: 0, duration: .6, stagger: .09, ease: 'power3.out', clearProps: 'transform,opacity',
+        }, '-=0.65');
       });
 
       gsap.from('.proj-view-more', {
@@ -473,7 +477,6 @@ export default function Projects() {
             <div
               ref={el => (cardRefs.current[idx] = el)}
               className="project-card bg-white rounded-[28px] border border-[#D1D5DB] hover:border-[#7C98A4] shadow-[0_6px_30px_rgba(0,0,0,0.05)] hover:shadow-[0_16px_48px_rgba(0,0,0,0.1)] transition-[border-color,box-shadow] duration-500 overflow-hidden flex flex-col md:flex-row w-full"
-              style={{ minHeight: CARD_HEIGHT }}
             >
               {/* LEFT: Illustrated image */}
               <div className={`project-visual ${proj.imageBg} md:w-[46%] shrink-0 flex flex-col items-center justify-center p-6 md:p-8 min-h-[300px]`}>
@@ -489,10 +492,10 @@ export default function Projects() {
               </div>
 
               {/* RIGHT: Content */}
-              <div className="flex-1 min-w-0 p-8 md:p-10 flex flex-col justify-between">
+              <div className="project-content flex-1 min-w-0 p-6 md:p-8 flex flex-col gap-5">
 
                 {/* Title + Action Buttons */}
-                <div className="project-heading flex items-start justify-between gap-4 mb-3 flex-wrap">
+                <div className="project-heading flex items-start justify-between gap-4 flex-wrap">
                   <div className="flex items-center gap-3">
                     <div className="w-12 h-12 rounded-full bg-[#F0F6F4] flex items-center justify-center shrink-0">
                       {proj.icon}
@@ -539,13 +542,13 @@ export default function Projects() {
                 </div>
 
                 {/* Tech badges */}
-                <div className="project-badges flex flex-wrap gap-2 mb-5">
+                <div className="project-badges flex flex-wrap gap-2">
                   {proj.techStack.map((tech, tIdx) => (
                     <div
                       key={tIdx}
                       className="flex items-center gap-1.5 px-3 py-1.5 bg-[#F4F6F8] rounded-full text-[11.5px] font-medium text-[#374151] border border-[#E5E7EB] hover:border-[#7C98A4] transition-colors duration-200"
                     >
-                      {tech.icon}
+                      <TechLogo name={tech.name} />
                       <span>{tech.name}</span>
                     </div>
                   ))}

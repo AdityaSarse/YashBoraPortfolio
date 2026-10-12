@@ -41,6 +41,43 @@ try:
                     expect(page.locator('.letter-orbit').first).to_have_css('opacity', '1')
                 page.screenshot(path=str(out / f'hero-{width}.png'))
                 page.get_by_role('button', name='Resume hero animation').click()
+            page.locator('.section-nav a[href="#skills"]').click()
+            expect(page.locator('.skill-tile')).to_have_count(36)
+            for logo in page.locator('.skill-tile img').all():
+                logo.scroll_into_view_if_needed()
+                expect(logo).to_be_visible()
+                page.wait_for_function('(src) => [...document.images].some(img => img.src === src && img.complete && img.naturalWidth > 0)', arg=logo.get_attribute('src') and logo.evaluate('img => img.src'))
+            page.locator('#skills').scroll_into_view_if_needed()
+            page.screenshot(path=str(out / f'skills-{width}-{reduced}.png'))
+            expect(page.locator('.experience-timeline > .experience-card')).to_have_count(3)
+            if width == 1440:
+                tool = page.locator('.skill-tile').first
+                tool.hover()
+                expect(tool).to_have_class(re.compile('is-hovered'))
+                expect(page.locator('#custom-cursor')).to_have_class(re.compile('tool-hovered'))
+                page.mouse.move(0, 0)
+                expect(page.locator('#custom-cursor')).not_to_have_class(re.compile('tool-hovered'))
+            if reduced == 'reduce':
+                assert page.locator('.skill-tile').first.evaluate("el => getComputedStyle(el).transform") == 'none'
+            page.get_by_role('button', name='FastAPI: filter experience').click()
+            expect(page.locator('.experience-card.is-matched')).to_have_count(2)
+            expect(page.locator('.experience-card.is-dimmed')).to_have_count(1)
+            expect(page.get_by_role('button', name='FastAPI: clear experience filter')).to_have_attribute('aria-pressed', 'true')
+            page.get_by_role('button', name='Docker: filter experience').click()
+            expect(page.locator('.experience-card.is-matched')).to_have_count(1)
+            page.get_by_role('button', name='Clear filter').click()
+            expect(page.locator('.experience-card.is-dimmed')).to_have_count(0)
+            page.locator('.experience-card').first.scroll_into_view_if_needed()
+            if width == 1440:
+                page.locator('.experience-card').first.hover()
+                expect(page.get_by_role('button', name='Python: filter experience')).to_have_class(re.compile('is-related'))
+                page.mouse.move(0, 0)
+            page.locator('.experience-card').first.get_by_role('button', name='View details').click()
+            expect(page.locator('.experience-card').first.get_by_role('button', name='Hide details')).to_have_attribute('aria-expanded', 'true')
+            page.screenshot(path=str(out / f'experience-{width}-{reduced}.png'))
+            for logo in page.locator('.company-logo-wrap img').all():
+                logo.scroll_into_view_if_needed()
+                page.wait_for_function('(src) => [...document.images].some(img => img.src === src && img.complete && img.naturalWidth > 0)', arg=logo.evaluate('img => img.src'))
             page.locator('.section-nav a[href="#projects"]').click()
             expect(page.locator('.section-nav a[href="#projects"]')).to_have_attribute('aria-current', 'location')
             expect(page.locator('.project-card')).to_have_count(7)
@@ -48,6 +85,12 @@ try:
             expect(page.locator('.project-card').filter(has_text='E-commerce Analytics Agent').get_by_role('link', name='Live Demo', exact=True)).to_have_attribute('href', 'https://ecommerce-analytics-agent-system.onrender.com/')
             expect(page.locator('.project-card').first.get_by_role('link', name='Live Demo', exact=True)).to_have_attribute('href', 'https://muitimodal-agent.onrender.com/')
             expect(page.locator('.project-heading').first).to_have_css('opacity', '1')
+            if reduced == 'reduce':
+                expect(page.locator('.project-card').first).not_to_have_class(re.compile('slide-complete'))
+            else:
+                expect(page.locator('.project-card').first).to_have_class(re.compile('slide-complete'), timeout=6000)
+            assert page.locator('.project-content').first.evaluate("el => getComputedStyle(el).justifyContent") == 'flex-start'
+            assert page.locator('.project-content').first.evaluate("el => parseFloat(getComputedStyle(el).gap)") <= 24
             page.screenshot(path=str(out / f'projects-{width}-{reduced}.png'))
             signal = page.locator('.workflow > div').first
             signal.scroll_into_view_if_needed()
@@ -58,10 +101,15 @@ try:
                 assert signal.evaluate("el => getComputedStyle(el, '::before').animationPlayState") == 'running'
             card = page.locator('.project-card').filter(has_text='E-commerce Analytics Agent')
             card.scroll_into_view_if_needed()
+            if reduced != 'reduce':
+                expect(card).to_have_class(re.compile('slide-complete'), timeout=6000)
             card.locator('.project-browser').focus()
             expect(card.locator('.project-browser')).to_be_focused()
+            expect(card.locator('.project-heading')).to_have_css('opacity', '1')
+            expect(card.locator('.project-badges')).to_have_css('opacity', '1')
+            expect(card.locator('.project-description')).to_have_css('opacity', '1')
             assert card.locator('.project-screenshot').evaluate('img => img.complete && img.naturalWidth > 0')
-            page.screenshot(path=str(out / f'preview-{width}-{reduced}.png'))
+            card.screenshot(path=str(out / f'preview-{width}-{reduced}.png'))
             assert page.evaluate('document.documentElement.scrollWidth <= innerWidth'), 'Horizontal overflow'
             assert not errors, errors
             page.close()

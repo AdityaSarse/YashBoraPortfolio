@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 
-const sections = ['about', 'experience', 'skills', 'projects', 'resume', 'contact'];
+const sections = ['about', 'skills', 'experience', 'projects', 'resume', 'contact'];
 
 export default function Navbar({ active }) {
   const navRef = useRef(null);
